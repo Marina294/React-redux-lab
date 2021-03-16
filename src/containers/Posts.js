@@ -13,8 +13,8 @@ class Post extends Component {
                 <ul>
                     {
                         this.props.postsArr.map(post => (
-                            <li>
-                               { post.title}
+                            <li key={post.id}>
+                               {post.title}
                                {/* { post.author} */}
                             </li>
                         ))
