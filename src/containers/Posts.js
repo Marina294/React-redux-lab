@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import {selectPostsArray} from '../reducers/postSelector'
 
 let count = 0;
 
@@ -14,6 +15,7 @@ class Post extends Component {
                         this.props.postsArr.map(post => (
                             <li>
                                { post.title}
+                               {/* { post.author} */}
                             </li>
                         ))
                     }
@@ -23,6 +25,10 @@ class Post extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({postsArr: state.postsObj.posts})
+const mapStateToProps = (state) => ({
+    // postsArr: state.postsObj.posts
+    // postsArr: state.postsObj.posts.filter(post => post.author === 'user-1')
+    postsArr: selectPostsArray(state)
+})
 
 export default connect(mapStateToProps)(Post)
