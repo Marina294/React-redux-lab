@@ -1,44 +1,25 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import { bindActionCreators } from 'redux';
+// import { bindActionCreators } from 'redux';
 
 import Person from '../components/Person/Person';
 import AddPerson from '../components/AddPerson/AddPerson';
-
-import personUpdate from '../actions/personUpdate';
+import * as actionType from '../reducers/action'
 
 class Persons extends Component {
-    state = {
-        persons: []
-    }
-
-    personAddedHandler = () => {
-        const newPerson = {
-            id: Math.random(), // not really unique but good enough here!
-            name: 'Max',
-            age: Math.floor( Math.random() * 40 )
-        }
-        this.setState( ( prevState ) => {
-            return { persons: prevState.persons.concat(newPerson)}
-        } );
-    }
-
-    personDeletedHandler = (personId) => {
-        this.setState( ( prevState ) => {
-            return { persons: prevState.persons.filter(person => person.id !== personId)}
-        } );
-    }
 
     render () {
+        console.log(this.props.persons)
         return (
             <div>
-                <AddPerson personAdded={this.personAddedHandler} />
-                {this.state.persons.map(person => (
+                <AddPerson personAdded={() => this.props.addPerson()} />
+                {this.props.persons.map((person) => (
                     <Person 
                         key={person.id}
                         name={person.name} 
                         age={person.age} 
-                        clicked={() => this.personDeletedHandler(person.id)}/>
+                        id={person.id}
+                        clicked={() => this.props.deletePerson(person.id)}/>
                 ))}
             </div>
         );
@@ -46,17 +27,39 @@ class Persons extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state)
+    // console.log('mapping: ', state)
     return {
-        data: state.person
+        persons: state.people.persons,
     }
 }
 
+
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({
-        personUpdate: personUpdate
-    }, dispatch)
+    return{
+      addPerson: () => dispatch({ type: actionType.addPerson }),
+      deletePerson: (id) => dispatch({ type: actionType.deletePerson, payload: id})
+    }
 }
+      
+// const mapDispatchToProps = (dispatch) => {
+//     return bindActionCreators(
+//         {
+//         addPerson: () => {
+//             return {
+//                 type: 'ADD_PERSON',
+//                 payload: {newPerson},
+//             }
+//         },
+//         deletePerson: (id) => {
+//             return {
+//                 type: 'DELETE_PERSON',
+//                 payload: {id},
+//             }
+//         },
+//     }, 
+//     dispatch
+//     )
+// }
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Persons);

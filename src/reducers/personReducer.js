@@ -1,32 +1,87 @@
-
-//initialize a state
-const newPerson = {
-    id: Math.random(), // not really unique but good enough here!
-    name: 'Max',
-    age: Math.floor( Math.random() * 40 )
-}
-// this.setState( ( prevState ) => {
-//     return { persons: prevState.persons.concat(newPerson)}
-// } );
+// import { v4 as uuidv4 } from 'uuid';
+import * as actionType from '../reducers/action'
 
 
-  //create a reducer
+const initialState = {
+    persons: []
+};
 
-const personReducer = (state = newPerson, action) => {
+const personReducer = (state = initialState, action) => {
 
-// only javascript no redux
-if(action.type === 'ADD_PERSON'){
-    const newState = [...state]; 
-
-    return newState
-    } else {
-    // allways return state
-    return state      
+    switch(action.type){
+      case actionType.addPerson:
+        const newPerson = {
+          id: Math.random(),
+          name: 'Max',
+          age: Math.floor(Math.random() * 40)
+        }
+        return{
+          ...state,
+          persons: [...state.persons, newPerson]
+        }
+      case actionType.deletePerson:
+        console.log(action.payload)
+        return{                                         
+          ...state,
+          persons: state.persons.filter((person) => person.id !== action.payload)
+        }
+      default:
+        return state
     }
-}
+  };
 
-export default personReducer; 
+export default personReducer;
 
+
+
+
+// import * as actionType from '../reducers/action'
+
+// const initialState = {
+//     persons: [],
+//     // hidden: false
+// };
+
+
+// const personReducer = (state = initialState, action) => {
+//     // const newState = [...state.persons];
+
+//     switch(action.type){
+//         // case "ADD_PERSON":
+//         case actionType.addPerson:
+//             const newPerson = {
+//                 id: Math.random(),
+//                 name: 'max',
+//                 age: Math.floor(Math.random()*40)
+//             }
+//             return {
+//                 ...state,
+//                 persons: [...state.persons, newPerson]
+//                 // persons: state.persons.concat(newPerson)
+//                 // count: state.count + 1
+
+//             }
+//             // newState.push(action.payload.newPerson);
+//             // return {
+//             //     ...state,
+//             //     persons: newState
+//             // };
+//             // case "DELETE_PERSON":
+//             case actionType.deletePerson:
+//                 return{
+//                     ...state,
+//                     persons: state.persons.filter((person) => person.id !== action.payload)
+//                 }
+//                 // newState.splice(action.payload.id, 1);
+//                 // return {
+//                 //     ...state,
+//                 //     persons: newState
+//                 // };
+//             default:
+//                 return state
+//     }
+
+// export default personReducer;
 
 
 
