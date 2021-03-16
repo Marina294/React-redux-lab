@@ -26,6 +26,7 @@ class Persons extends Component {
     }
 }
 
+//selectors
 const mapStateToProps = (state) => {
     // console.log('mapping: ', state)
     return {
@@ -33,7 +34,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-
+// dispatch
 const mapDispatchToProps = (dispatch) => {
     return{
       addPerson: () => dispatch({ type: actionType.addPerson }),

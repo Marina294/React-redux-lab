@@ -1,5 +1,7 @@
-// import { v4 as uuidv4 } from 'uuid';
+//uuid
+import { v4 as uuidv4 } from 'uuid';
 import * as actionType from '../reducers/action'
+
 
 
 const initialState = {
@@ -11,7 +13,8 @@ const personReducer = (state = initialState, action) => {
     switch(action.type){
       case actionType.addPerson:
         const newPerson = {
-          id: Math.random(),
+        //   id: Math.random(),
+          id: uuidv4(),
           name: 'Max',
           age: Math.floor(Math.random() * 40)
         }
